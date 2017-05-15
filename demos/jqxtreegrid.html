@@ -9,6 +9,8 @@
   <script type="text/javascript" src="../lib/jqwidgets/jqxdata.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxbuttons.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxscrollbar.js"></script>
+  <script type="text/javascript" src="../lib/jqwidgets/jqxlistbox.js"></script>
+  <script type="text/javascript" src="../lib/jqwidgets/jqxdropdownlist.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxdatatable.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxtreegrid.js"></script>
 
@@ -24,7 +26,8 @@
         { "EmployeeID": 6, "FirstName": "Michael", "LastName": "Suyama", "ReportsTo": 5, "Country": "UK", "Title": "Sales Representative", "HireDate": "1993-10-17 00:00:00", "BirthDate": "1963-07-02 00:00:00", "City": "London", "Address": "Coventry House Miner Rd." },
         { "EmployeeID": 7, "FirstName": "Robert", "LastName": "King", "ReportsTo": 5, "Country": "UK", "Title": "Sales Representative", "HireDate": "1994-01-02 00:00:00", "BirthDate": "1960-05-29 00:00:00", "City": "London", "Address": "Edgeham Hollow Winchester Way" },
         { "EmployeeID": 8, "FirstName": "Laura", "LastName": "Callahan", "ReportsTo": 2, "Country": "USA", "Title": "Inside Sales Coordinator", "HireDate": "1994-03-05 00:00:00", "BirthDate": "1958-01-09 00:00:00", "City": "Seattle", "Address": "4726 - 11th Ave. N.E." },
-        { "EmployeeID": 9, "FirstName": "Anne", "LastName": "Dodsworth", "ReportsTo": 5, "Country": "UK", "Title": "Sales Representative", "HireDate": "1994-11-15 00:00:00", "BirthDate": "1966-01-27 00:00:00", "City": "London", "Address": "7 Houndstooth Rd." }
+        { "EmployeeID": 9, "FirstName": "Anne", "LastName": "Dodsworth", "ReportsTo": 5, "Country": "UK", "Title": "Sales Representative", "HireDate": "1994-11-15 00:00:00", "BirthDate": "1966-01-27 00:00:00", "City": "London", "Address": "7 Houndstooth Rd." },
+        { "EmployeeID": 10, "FirstName": "Richards", "LastName": "Andrew", "ReportsTo": null, "Country": "USA", "Title": "Vice President, Sales", "HireDate": "1992-08-14 00:00:00", "BirthDate": "1952-02-19 00:00:00", "City": "Tacoma", "Address": "908 W. Capital Way" },
       ];
 
       var source =
@@ -60,6 +63,7 @@
                 source: dataAdapter,
                 pageable: true,
                 sortable: true,
+                pagerMode: 'advanced',
                 ready: function()
                 {
                   // expand row with 'EmployeeKey = 2'
