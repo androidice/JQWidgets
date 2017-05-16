@@ -645,6 +645,18 @@
                   { text: 'CPA' , dataField: 'cpa',  width: 120}
                 ]
               });
+
+            /**
+             * Events
+             * */
+            $("#treeGrid").on('rowCheck', function(event){
+              var rowData = args.row;
+              console.log('checked data', rowData);
+            });
+            $("#treeGrid").on('rowUncheck', function(event){
+              var rowData = args.row;
+              console.log('unchecked data', rowData);
+            });
     });
   </script>
 </head>
