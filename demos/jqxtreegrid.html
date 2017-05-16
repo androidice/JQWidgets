@@ -3,20 +3,26 @@
 <html lang="en">
 <head>
   <title>jqxTreeGrid</title>
-  <link rel="stylesheet" href="../lib/jqwidgets/styles/jqx.base.css" type="text/css"/>
+  <link rel="stylesheet" href="../lib/jqwidgets/styles/jqx.base.css"
+        type="text/css"/>
   <script type="text/javascript" src="../lib/jquery-1.11.1.min.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxcore.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxdata.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxbuttons.js"></script>
-  <script type="text/javascript" src="../lib/jqwidgets/jqxscrollbar.js"></script>
+  <script type="text/javascript"
+          src="../lib/jqwidgets/jqxscrollbar.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxlistbox.js"></script>
-  <script type="text/javascript" src="../lib/jqwidgets/jqxdropdownlist.js"></script>
+  <script type="text/javascript"
+          src="../lib/jqwidgets/jqxdropdownlist.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxcheckbox.js"></script>
-  <script type="text/javascript" src="../lib/jqwidgets/jqxdatatable.js"></script>
+  <script type="text/javascript"
+          src="../lib/jqwidgets/jqxdatatable.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxtreegrid.js"></script>
+  <script type="text/javascript"
+          src="../lib/jqwidgets/jqxwindow.js"></script>
 
   <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
 
       var data = [
         {
@@ -582,86 +588,141 @@
         }
       ];
 
-      var source =
-            {
-              dataType: "json",
-              dataFields: [
-                { name: '_id', type: 'number' },
-                { name: 'parentId', type: 'number' },
-                { name: 'campaign', type: 'string' },
-                { name: 'isActive', type: 'boolean' },
-                { name: 'visits', type: 'number' },
-                { name: 'clicks', type: 'number' },
-                { name: 'ctr', type: 'number' },
-                { name: 'cvr', type: 'number' },
-                { name: 'epc', type: 'number' },
-                { name: 'revenue', type: 'number' },
-                { name: 'cost', type: 'number' },
-                { name: 'roi', type: 'number' },
-                { name: 'cpv', type: 'number' },
-                { name: 'epv', type: 'number' },
-                { name: 'cpa', type: 'number' },
-              ],
-              hierarchy:
-                {
+      function buildGridSource() {
+        var source =
+              {
+                dataType: "json",
+                dataFields: [
+                  { name: '_id', type: 'number' },
+                  { name: 'parentId', type: 'number' },
+                  { name: 'campaign', type: 'string' },
+                  { name: 'isActive', type: 'boolean' },
+                  { name: 'visits', type: 'number' },
+                  { name: 'clicks', type: 'number' },
+                  { name: 'ctr', type: 'number' },
+                  { name: 'cvr', type: 'number' },
+                  { name: 'epc', type: 'number' },
+                  { name: 'revenue', type: 'number' },
+                  { name: 'cost', type: 'number' },
+                  { name: 'roi', type: 'number' },
+                  { name: 'cpv', type: 'number' },
+                  { name: 'epv', type: 'number' },
+                  { name: 'cpa', type: 'number' },
+                ],
+                hierarchy: {
                   keyDataField: { name: '_id' },
                   parentDataField: { name: 'parentId' }
                 },
-              id: '_id',
-              localData: data
-            };
+                id: '_id',
+                localData: data
+              };
 
-            var dataAdapter = new $.jqx.dataAdapter(source);
+        return new $.jqx.dataAdapter(source);
+      }
 
-            // create Tree Grid
-            $("#treeGrid").jqxTreeGrid(
-              {
-                width: 1500,
-                source: dataAdapter,
-                pageable: true,
-                sortable: true,
-                checkboxes: true,
-                pagerMode: 'advanced',
-                ready: function()
-                {
-                  // expand row with 'EmployeeKey = 2'
-                  $("#treeGrid").jqxTreeGrid('expandRow', 5);
-                  $("#treeGrid").jqxTreeGrid('expandRow', 6);
-                },
-                columns: [
-                  { text: 'ID', dataField: '_id', width: 200 },
-                  { text: 'Campaign', dataField: 'campaign', width: 200 },
-                  { text: '', dataField: 'isActive', width: 60 },
-                  { text: 'Visits', dataField: 'visits', width: 120 },
-                  { text: 'Clicks', dataField: 'clicks', width: 120 },
-                  { text: 'CTR', dataField: 'ctr', width: 120 },
-                  { text: 'CVR', dataField: 'cvr', width: 120 },
-                  { text: 'EPC', dataField: 'epc',  width: 120},
-                  { text: 'Revenue', dataField: 'revenue',  width: 120 },
-                  { text: 'Cost P/L' , dataField: 'cost',  width: 120},
-                  { text: 'ROI' , dataField: 'roi',  width: 120},
-                  { text: 'CPV', dataField: 'cpv',  width: 120 },
-                  { text: 'EPV' , dataField: 'epv',  width: 120},
-                  { text: 'CPA' , dataField: 'cpa',  width: 120}
-                ]
-              });
+      function getGridSettings(){
+        var gridSettings = {
+          width: 1500,
+          source: buildGridSource(),
+          pageable: true,
+          sortable: true,
+          checkboxes: true,
+          showtoolbar: true,
+          pagerMode: 'advanced',
+          ready: function () {
+            // expand row with 'EmployeeKey = 2'
+            $("#treeGrid").jqxTreeGrid('expandRow', 5);
+            $("#treeGrid").jqxTreeGrid('expandRow', 6);
+          },
+          columns: [
+            { text: 'ID', dataField: '_id', width: 200 },
+            { text: 'Campaign', dataField: 'campaign', width: 200 },
+            { text: '', dataField: 'isActive', width: 60 },
+            { text: 'Visits', dataField: 'visits', width: 120 },
+            { text: 'Clicks', dataField: 'clicks', width: 120 },
+            { text: 'CTR', dataField: 'ctr', width: 120 },
+            { text: 'CVR', dataField: 'cvr', width: 120 },
+            { text: 'EPC', dataField: 'epc', width: 120 },
+            { text: 'Revenue', dataField: 'revenue', width: 120 },
+            { text: 'Cost P/L', dataField: 'cost', width: 120 },
+            { text: 'ROI', dataField: 'roi', width: 120 },
+            { text: 'CPV', dataField: 'cpv', width: 120 },
+            { text: 'EPV', dataField: 'epv', width: 120 },
+            { text: 'CPA', dataField: 'cpa', width: 120 }
+          ],
+          rendertoolbar: function (toolbar) {
+            var container = $("<div style='margin: 5px;'></div>");
+            var searchButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='../images/search.png'/><span style='margin-left: 4px; position: relative; top: -3px;'>Find</span></div>");
+            container.append(searchButton);
+            searchButton.jqxButton({  width: 50, height: 20 });
+            toolbar.append(container);
 
-            /**
-             * Events
-             * */
-            $("#treeGrid").on('rowCheck', function(event){
-              var rowData = args.row;
-              console.log('checked data', rowData);
+            searchButton.click(function (event) {
+              var offset = $("#jqxgrid").offset();
+              $("#jqxwindow").jqxWindow('open');
+              $("#jqxwindow").jqxWindow('move', offset.left + 30, offset.top + 30);
             });
-            $("#treeGrid").on('rowUncheck', function(event){
-              var rowData = args.row;
-              console.log('unchecked data', rowData);
-            });
+          }
+        };
+        return gridSettings;
+      }
+
+      // create Tree Grid
+      $("#treeGrid").jqxTreeGrid(getGridSettings());
+
+      // create jqxWindow.
+      $("#jqxwindow").jqxWindow({ resizable: false,  autoOpen: false, width: 210, height: 180 });
+      // create find and clear buttons.
+      $("#findButton").jqxButton({ width: 70});
+      $("#clearButton").jqxButton({ width: 70});
+      // create dropdownlist.
+      $("#dropdownlist").jqxDropDownList({ autoDropDownHeight: true, selectedIndex: 0, width: 200, height: 23,
+        source: [
+          'Campaigns', 'Visits', 'ROI', 'Revenue', 'Cost P/L'
+        ]
+      });
+
+      /**
+       * Events
+       * */
+      $("#treeGrid").on('rowCheck', function (event) {
+        var rowData = args.row;
+        console.log('checked data', rowData);
+      });
+      $("#treeGrid").on('rowUncheck', function (event) {
+        var rowData = args.row;
+        console.log('unchecked data', rowData);
+      });
+
+
     });
   </script>
 </head>
 <body class='default'>
+<div id="jqxWidget">
   <div id="treeGrid">
   </div>
+  <div id="jqxwindow">
+    <div>
+      Find Record</div>
+    <div style="overflow: hidden;">
+      <div>
+        Find what:</div>
+      <div style='margin-top:5px;'>
+        <input id='inputField' type="text" class="jqx-input" style="width: 200px; height: 23px;" />
+      </div>
+      <div style="margin-top: 7px; clear: both;">
+        Look in:</div>
+      <div style='margin-top:5px;'>
+        <div id='dropdownlist'>
+        </div>
+      </div>
+      <div>
+        <input type="button" style='margin-top: 15px; margin-left: 50px; float: left;' value="Find" id="findButton" />
+        <input type="button" style='margin-left: 5px; margin-top: 15px; float: left;' value="Clear" id="clearButton" />
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
