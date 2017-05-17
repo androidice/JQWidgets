@@ -18,8 +18,8 @@
   <script type="text/javascript"
           src="../lib/jqwidgets/jqxdatatable.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxtreegrid.js"></script>
-  <script type="text/javascript"
-          src="../lib/jqwidgets/jqxwindow.js"></script>
+  <script type="text/javascript" src="../lib/jqwidgets/jqxwindow.js"></script>
+  <script type="text/javascript" src="../lib/jqwidgets/jqxmenu.js"></script>
 
   <script type="text/javascript">
     $(document).ready(function () {
@@ -613,7 +613,7 @@
                             <div>
                               <button campaign-id=${dataObj._id}>Edit</button>
                               <button campaign-id=${dataObj._id}>Stats</button>
-                              <button campaign-id=${dataObj._id}>Stats</button>
+                              <button campaign-id=${dataObj._id}>Trash</button>
                             </div>
                         </span>`;
               return template;
@@ -625,7 +625,6 @@
             return value;
         }
       };
-
 
       function buildGridSource() {
         var source =
@@ -736,6 +735,44 @@
         ]
       });
 
+
+      // create context menu
+      var contextMenu = $("#Menu").jqxMenu({ width: 200, height: 110, autoOpenPopup: false, mode: 'popup' });
+      $("#treeGrid").on('contextmenu', function () {
+        return false;
+      });
+
+      $("#treeGrid").on('rowClick', function (event) {
+        var args = event.args;
+        if (args.originalEvent.button == 2) {
+          var scrollTop = $(window).scrollTop();
+          var scrollLeft = $(window).scrollLeft();
+          contextMenu.jqxMenu('open', parseInt(event.args.originalEvent.clientX) + 5 + scrollLeft, parseInt(event.args.originalEvent.clientY) + 5 + scrollTop);
+
+          return false;
+        }
+      });
+
+      $("#Menu").on('itemclick', function (event) {
+        var args = event.args;
+        var selection = $("#treeGrid").jqxTreeGrid('getSelection');
+        var rowid = selection[0].uid;
+        switch ($.trim($(args).text())){
+          case 'Stats Quickview':
+            console.log('Stats Quickview');
+            console.log('rowid', rowid);
+            break;
+          case 'Stats Drilldown':
+            console.log('Stats Drilldown');
+            console.log('rowid', rowid);
+            break;
+          default:
+            console.log('others');
+            console.log('rowid', rowid);
+            return;
+        }
+      });
+
       /**
        * Events
        * */
@@ -815,6 +852,14 @@
         <input type="button" style='margin-left: 5px; margin-top: 15px; float: left;' value="Clear" id="clearButton" />
       </div>
     </div>
+  </div>
+  <div id='Menu'>
+    <ul>
+      <li>Stats Quickview</li>
+      <li>Stats Drilldown</li>
+      <li>Funnel Heatmap</li>
+      <li>Reset Stats</li>
+    </ul>
   </div>
 </div>
 </body>
