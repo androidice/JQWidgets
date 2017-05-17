@@ -30,7 +30,6 @@
         console.log('storage has been cleared');
       };
 
-
       var data = [
         {
           "_id": 1,
@@ -595,6 +594,34 @@
         }
       ];
 
+      var stylizedCell = function (row, columnfield, value, dataObj, columnproperties){
+        switch (columnfield){
+          case 'roi':
+            return `<span style="color: #14aa50">${value}</span>`;
+          case 'isActive':
+            if(value)
+            {
+              return '<span><img src="../images/green-circle.png" alt="" style="width:10px; height:10px"/></span>'
+            }else{
+              return '<span><img src="../images/red-circle.png" alt="" style="width:10px; height:10px"/></span>'
+            }
+          case 'campaign':
+            var template='';
+            template = `<span>
+                            ${value}
+                            <div>
+                              <button campaign-id=${dataObj._id}>Edit</button>
+                              <button campaign-id=${dataObj._id}>Stats</button>
+                              <button campaign-id=${dataObj._id}>Stats</button>
+                            </div>
+                        </span>`;
+            return template;
+          default:
+            return value;
+        }
+      };
+
+
       function buildGridSource() {
         var source =
               {
@@ -644,8 +671,8 @@
           },
           columns: [
             { text: 'ID', dataField: '_id', width: 200 },
-            { text: 'Campaign', dataField: 'campaign', width: 200 },
-            { text: '', dataField: 'isActive', width: 60 },
+            { text: 'Campaign', dataField: 'campaign', width: 200, cellsrenderer: stylizedCell },
+            { text: '', dataField: 'isActive', width: 60 , cellsrenderer: stylizedCell },
             { text: 'Visits', dataField: 'visits', width: 120 },
             { text: 'Clicks', dataField: 'clicks', width: 120 },
             { text: 'CTR', dataField: 'ctr', width: 120 },
@@ -653,7 +680,7 @@
             { text: 'EPC', dataField: 'epc', width: 120 },
             { text: 'Revenue', dataField: 'revenue', width: 120 },
             { text: 'Cost P/L', dataField: 'cost', width: 120 },
-            { text: 'ROI', dataField: 'roi', width: 120 },
+            { text: 'ROI', dataField: 'roi', width: 120, cellsrenderer: stylizedCell },
             { text: 'CPV', dataField: 'cpv', width: 120 },
             { text: 'EPV', dataField: 'epv', width: 120 },
             { text: 'CPA', dataField: 'cpa', width: 120 }
