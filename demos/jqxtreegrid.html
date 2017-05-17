@@ -22,6 +22,33 @@
   <script type="text/javascript" src="../lib/jqwidgets/jqxtreegrid.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxwindow.js"></script>
   <script type="text/javascript" src="../lib/jqwidgets/jqxmenu.js"></script>
+  <script type="text/javascript" src="../lib/jqwidgets/jqxtooltip.js"></script>
+
+  <style type="text/css">
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      border-bottom: 1px dotted black;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
+
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+  </style>
 
   <script type="text/javascript">
     $(document).ready(function () {
@@ -608,10 +635,11 @@
               return '<span><img src="../images/red-circle.png" alt="" style="width:10px; height:10px"/></span>'
             }
           case 'campaign':
-            if(dataObj.parentId==null){
+            if(dataObj.parentId == null){
               var template='';
-              template = `<span>
+              template = `<span class="tooltip">
                             ${value}
+                            <span class="tooltiptext">${value}</span>
                             <div>
                               <button campaign-id=${dataObj._id}>Edit</button>
                               <button campaign-id=${dataObj._id}>Stats</button>
@@ -620,7 +648,12 @@
                         </span>`;
               return template;
             }else{
-              return value;
+              var template = '';
+              template = `<span class="tooltip">
+                            ${value}
+                            <span class="tooltiptext">${value}</span>
+                          </span>`;
+              return template;
             }
 
           default:
@@ -725,7 +758,8 @@
 
       // create Tree Grid
       $("#treeGrid").jqxTreeGrid(getGridSettings());
-
+      //sets the jqxTreeGrid automatically alternates row colors.
+      $('#treeGrid').jqxTreeGrid({altRows: true});
       // create jqxWindow.
       $("#jqxwindow").jqxWindow({ resizable: false,  autoOpen: false, width: 210, height: 180 });
       // create find and clear buttons.
@@ -737,7 +771,6 @@
           'Campaigns', 'Visits', 'ROI', 'Revenue', 'Cost P/L'
         ]
       });
-
 
       // create context menu
       var contextMenu = $("#Menu").jqxMenu({ width: 200, height: 110, autoOpenPopup: false, mode: 'popup' });
