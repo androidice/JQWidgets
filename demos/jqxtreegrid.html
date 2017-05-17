@@ -634,7 +634,8 @@
           pageable: true,
           sortable: true,
           checkboxes: true,
-          showtoolbar: true,
+          showToolbar: true,
+          showStatusBar: true,
           pagerMode: 'advanced',
           ready: function () {
             // expand row with 'EmployeeKey = 2'
@@ -657,9 +658,9 @@
             { text: 'EPV', dataField: 'epv', width: 120 },
             { text: 'CPA', dataField: 'cpa', width: 120 }
           ],
-          rendertoolbar: function (toolbar) {
+          renderToolbar: function (toolbar) {
             var container = $("<div style='margin: 5px;'></div>");
-            var searchButton = $("<div style='float: left; margin-left: 5px;'><img style='position: relative; margin-top: 2px;' src='../images/search.png'/><span style='margin-left: 4px; position: relative; top: -3px;'>Find</span></div>");
+            var searchButton = $("<div style='float: left; margin-left: 5px;' ><img style='position: relative; margin-top: 2px;' src='../images/search.png'/><span style='margin-left: 4px; position: relative; top: -3px;'>Find</span></div>");
             container.append(searchButton);
             searchButton.jqxButton({  width: 50, height: 20 });
             toolbar.append(container);
@@ -669,6 +670,20 @@
               $("#jqxwindow").jqxWindow('open');
               $("#jqxwindow").jqxWindow('move', offset.left + 30, offset.top + 30);
             });
+          },
+          renderStatusBar: function(statusbar){
+            function getVisits(){
+              var visits = 0;
+              var _data = data;
+              _data.forEach(function(item){
+                visits += item.visits;
+              });
+             return visits;
+            }
+            var container = $("<div style='margin: 5px;'></div>");
+            container.append($("<div>Total</div>"));
+            container.append($(`<div>visits: ${getVisits()}</div>`));
+            statusbar.append(container);
           }
         };
         return gridSettings;
@@ -688,8 +703,6 @@
           'Campaigns', 'Visits', 'ROI', 'Revenue', 'Cost P/L'
         ]
       });
-
-
 
       /**
        * Events
