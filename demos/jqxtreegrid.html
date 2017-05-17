@@ -24,6 +24,13 @@
   <script type="text/javascript">
     $(document).ready(function () {
 
+      window.clearStorage = function(){
+        localStorage.clear();
+        sessionStorage.clear();
+        console.log('storage has been cleared');
+      };
+
+
       var data = [
         {
           "_id": 1,
@@ -658,7 +665,7 @@
             toolbar.append(container);
 
             searchButton.click(function (event) {
-              var offset = $("#jqxgrid").offset();
+              var offset = $("#treeGrid").offset();
               $("#jqxwindow").jqxWindow('open');
               $("#jqxwindow").jqxWindow('move', offset.left + 30, offset.top + 30);
             });
@@ -682,6 +689,8 @@
         ]
       });
 
+
+
       /**
        * Events
        * */
@@ -694,6 +703,45 @@
         console.log('unchecked data', rowData);
       });
 
+      // clear filters.
+      $("#clearButton").click(function () {
+        $("#treeGrid").jqxTreeGrid('clearFilters');
+      });
+
+      // find records that match a criteria.
+      $("#findButton").click(function () {
+        $("#treeGrid").jqxTreeGrid('clearFilters');
+        var searchColumnIndex = $("#dropdownlist").jqxDropDownList('selectedIndex');
+        var datafield = "";
+        switch (searchColumnIndex) {
+          case 0:
+            datafield = "campaign";
+            break;
+          case 1:
+            datafield = "visits";
+            break;
+          case 2:
+            datafield = "roi";
+            break;
+          case 3:
+            datafield = "revenue";
+            break;
+          case 4:
+            datafield = "cost";
+            break;
+        }
+
+        var searchText = $("#inputField").val();
+        var filtergroup = new $.jqx.filter();
+        var filter_or_operator = 1;
+        var filtervalue = searchText;
+        var filtercondition = 'contains';
+        var filter = filtergroup.createfilter('stringfilter', filtervalue, filtercondition);
+        filtergroup.addfilter(filter_or_operator, filter);
+        $("#treeGrid").jqxTreeGrid('addFilter', datafield, filtergroup);
+        // apply the filters.
+        $("#treeGrid").jqxTreeGrid('applyFilters');
+      });
 
     });
   </script>
