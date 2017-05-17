@@ -606,8 +606,9 @@
               return '<span><img src="../images/red-circle.png" alt="" style="width:10px; height:10px"/></span>'
             }
           case 'campaign':
-            var template='';
-            template = `<span>
+            if(dataObj.parentId==null){
+              var template='';
+              template = `<span>
                             ${value}
                             <div>
                               <button campaign-id=${dataObj._id}>Edit</button>
@@ -615,7 +616,11 @@
                               <button campaign-id=${dataObj._id}>Stats</button>
                             </div>
                         </span>`;
-            return template;
+              return template;
+            }else{
+              return value;
+            }
+
           default:
             return value;
         }
